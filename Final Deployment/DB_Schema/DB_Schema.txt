@@ -1,0 +1,97 @@
+Database Schema
+
+CREATE TABLE `ejqahejs_ams_project`.`user_tbl` ( `uid` INT(11) NOT NULL AUTO_INCREMENT , `fname` VARCHAR(45) NOT NULL , `lname` VARCHAR(45) NOT NULL , `user_name` VARCHAR(45) NOT NULL , `password` VARCHAR(45) NOT NULL , `user_type` VARCHAR(1) NOT NULL , `dob` DATE NOT NULL , `email` VARCHAR(50) NOT NULL , PRIMARY KEY (`uid`)) ENGINE = InnoDB;
+
+CREATE  TABLE `ejqahejs_ams_project`.`student_tbl` (
+  `uid_fk` INT(11) NOT NULL ,
+  `roll` INT(20) NOT NULL ,
+  `branch` VARCHAR(45) NOT NULL ,
+  `section` VARCHAR(45) NOT NULL ,
+  `year` INT(1) NOT NULL ,
+  `father_name` VARCHAR(45) NOT NULL ,
+  `mother_name` VARCHAR(45) NOT NULL ,
+  `address` VARCHAR(45) NOT NULL ,
+  `course` VARCHAR(45) NOT NULL ,
+  `semester` VARCHAR(45) NOT NULL ,
+  INDEX `uid_idx` (`uid_fk` ASC) ,
+  CONSTRAINT `uid`
+    FOREIGN KEY (`uid_fk` )
+    REFERENCES `ejqahejs_ams_project`.`user_tbl` (`uid` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+CREATE  TABLE `ejqahejs_ams_project`.`faculty_tbl` (
+  `faculty_uid_fk` INT(11) NOT NULL ,
+  `branch` VARCHAR(45) NOT NULL ,
+  `subject` VARCHAR(45) NOT NULL ,
+  `address` VARCHAR(45) NOT NULL ,
+  INDEX `uid_idx` (`faculty_uid_fk` ASC) ,
+  CONSTRAINT `uid`
+    FOREIGN KEY (`faculty_uid_fk` )
+    REFERENCES `ejqahejs_ams_project`.`user_tbl` (`uid` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE  TABLE `ejqahejs_ams_project`.`guardian_tbl` (
+  `guardian_fk` INT(11) NOT NULL ,
+  `wards_name` VARCHAR(45) NOT NULL ,
+  `wards_roll` INT(20) NOT NULL ,
+  `address` VARCHAR(45) NOT NULL ,
+  INDEX `uid_idx` (`guardian_fk` ASC) ,
+  CONSTRAINT `uid`
+    FOREIGN KEY (`guardian_fk` )
+    REFERENCES `ejqahejs_ams_project`.`user_tbl` (`uid` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+CREATE  TABLE `ejqahejs_ams_project`.`attendance_tbl` (
+  `attendance_fk` INT(11) NOT NULL ,
+  `date` DATE NOT NULL ,
+  `sub_1` INT(1) NULL DEFAULT 0 ,
+  `sub_2` INT(1) NULL DEFAULT 0 ,
+  `sub_3` INT(1) NULL DEFAULT 0 ,
+  `sub_4` INT(1) NULL DEFAULT 0 ,
+  `sub_5` INT(1) NULL DEFAULT 0 ,
+  `sub_6` INT(1) NULL DEFAULT 0 ,
+  `sub_7` INT(1) NULL DEFAULT 0 ,
+  `sub_8` INT(1) NULL DEFAULT 0 ,
+  `daily_attendance` FLOAT NULL DEFAULT 0 ,
+  INDEX `uid_fk_idx` (`attendance_fk` ASC) ,
+  CONSTRAINT `uid_fk`
+    FOREIGN KEY (`attendance_fk` )
+    REFERENCES `ejqahejs_ams_project`.`student_tbl` (`uid_fk` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+CREATE  TABLE `ejqahejs_ams_project`.`assignment_tbl` (
+  `assignment_fk` INT(11) NOT NULL ,
+  `date` DATE NOT NULL ,
+  `assignment` VARCHAR(45) NULL ,
+  `faculty` VARCHAR(45) NOT NULL ,
+  `marks` FLOAT NULL ,
+  `completed` INT(1) NULL DEFAULT 0 ,
+  INDEX `uid_fk_idx` (`assignment_fk` ASC) ,
+  CONSTRAINT `uid_fk`
+    FOREIGN KEY (`assignment_fk` )
+    REFERENCES `ejqahejs_ams_project`.`student_tbl` (`uid_fk` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+CREATE  TABLE `ejqahejs_ams_project`.`subject_tbl` (
+  `subject_fk` INT(11) NOT NULL ,
+  `subject1` VARCHAR(45) NOT NULL ,
+  `subject2` VARCHAR(45) NOT NULL ,
+  `subject1_section` VARCHAR(45) NOT NULL ,
+  `subject2_section` VARCHAR(45) NOT NULL ,
+  INDEX `faculty_uid_fk_idx` (`subject_fk` ASC) ,
+  CONSTRAINT `faculty_uid_fk`
+    FOREIGN KEY (`subject_fk` )
+    REFERENCES `ejqahejs_ams_project`.`faculty_tbl` (`faculty_uid_fk` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
